@@ -11,12 +11,18 @@ const Stack = createNativeStackNavigator();
 
 export default function RootNav(){
     return(
-        <Stack.Navigator>
-            <Stack.Screen name="Time Table" component={TimeTable} options={({navigation}) => ({
+        <Stack.Navigator 
+            screenOptions={{
+                headerTintColor: '#fff',
+                headerStyle: {backgroundColor: '#fc5c65'}
+            }}
+        >
+            <Stack.Screen name="timetable" component={TimeTable} options={({navigation}) => ({
+                headerTitle: 'Time Table',
                 headerRight: ()=> (
                     <>
                         <TouchableOpacity onPress={() => {Alert.alert('Add class')}}>
-                            <Icon name="add-outline" type="ionicon" color="#000" size={hp('4%')} />
+                            <Icon name="add-outline" type="ionicon" color="#fff" size={hp('4%')} />
                         </TouchableOpacity>
                     </>
                 )
