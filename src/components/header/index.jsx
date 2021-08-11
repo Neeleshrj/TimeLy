@@ -10,7 +10,7 @@ export default function Header({text}){
 
 const styles = StyleSheet.create({
     header: {
-        color: '#fc5c65',
+        color: '#000',
         fontWeight: 'normal'
     },
 })

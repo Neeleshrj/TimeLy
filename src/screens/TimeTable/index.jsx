@@ -21,6 +21,7 @@ export default function Days() {
             tabBarIndicatorStyle: styles.indicator,
             tabBarActiveTintColor: '#fff',
             tabBarInactiveTintColor: '#747d8c',
+            tabBarPressColor: 'transparent'
     }}
     sceneContainerStyle={{backgroundColor: '#fff'}}
     >

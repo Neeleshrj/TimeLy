@@ -1,6 +1,5 @@
 import React from "react";
 import {StyleSheet} from 'react-native';
-import Icon from "react-native-vector-icons/FontAwesome";
 import { Input } from "react-native-elements";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 
