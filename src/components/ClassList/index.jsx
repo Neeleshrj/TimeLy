@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { ListItem } from "react-native-elements";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { useIsFocused } from '@react-navigation/native';
+
+
+import { getClassList } from "./helper";
 
 const classlist = [
     {
@@ -27,6 +31,14 @@ const classlist = [
 
 
 export default function ClassList() {
+
+  const isFocused = useIsFocused();
+
+  useEffect(()=>{
+    getClassList();
+  },[isFocused])
+
+
   return classlist.map((l, i) => (
     <ListItem
       containerStyle={[{ backgroundColor: "#26de81" }, styles.container]}

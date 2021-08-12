@@ -8,13 +8,13 @@ import RootNav from "./src/routes/rootNav";
 export default function App() {
 
   async function createEmptyStorage(){
-    const monday = ["Monday", JSON.stringify({})]
-    const tuesday = ["Tuesday", JSON.stringify({})]
-    const wednesday = ["Wednesday", JSON.stringify({})]
-    const thursday = ["Thursday", JSON.stringify({})]
-    const friday = ["Friday", JSON.stringify({})]
-    const saturday = ["Saturday", JSON.stringify({})]
-    const sunday = ["Sunday", JSON.stringify({})]
+    const monday = ["Monday", JSON.stringify([])]
+    const tuesday = ["Tuesday", JSON.stringify([])]
+    const wednesday = ["Wednesday", JSON.stringify([])]
+    const thursday = ["Thursday", JSON.stringify([])]
+    const friday = ["Friday", JSON.stringify([])]
+    const saturday = ["Saturday", JSON.stringify([])]
+    const sunday = ["Sunday", JSON.stringify([])]
     try{
       await AsyncStorage.multiSet([monday, tuesday, wednesday, thursday, friday, saturday, sunday])
       console.log('default values set')

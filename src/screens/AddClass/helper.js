@@ -2,21 +2,28 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Alert} from 'react-native';
 
 export async function addToStorage(className, slot, type, day, toTime, fromTime, navigation){
-    console.log(className)
-    console.log(slot)
-    console.log(type)
-    console.log(day)
-    console.log(toTime)
-    console.log(fromTime)
-    const data = {
-        slot: {
-            className: className,
-            day: day,
-            toTime: toTime,
-            fromTime: fromTime
-        },   
-    }
-    await AsyncStorage.mergeItem(day, JSON.stringify(data))
+    // console.log(className)
+    // console.log(slot)
+    // console.log(type)
+    // console.log(day)
+    // console.log(toTime)
+    // console.log(fromTime)
+    // const uid = uuidv4();
+    let arr = await AsyncStorage.getItem(day)
+    console.log(arr);
+    const data = 
+        [    {
+            subname: className,
+            slot: slot,
+            type: type,
+            from: fromTime,
+            to: toTime,
+            }
+        ]
+    
+    arr = JSON.parse(arr).concat(data);
+    
+    await AsyncStorage.setItem(day, JSON.stringify(arr))
     .then(() => {
         console.log('added to async storage');
         Alert.alert(
