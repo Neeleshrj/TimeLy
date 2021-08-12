@@ -1,62 +1,79 @@
-import React, { useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, FlatList } from "react-native";
 import { ListItem } from "react-native-elements";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import Loading from "../Loader";
 
-import { getClassList } from "./helper";
+import { msToHuman } from "./helper";
 
-const classlist = [
-    {
-        subname: 'CSE3024',
-        type: 'Theory',
-        from: '08:00',
-        to: '08:50',
-        slot: 'A1'
-    },
-    {
-        subname: 'CSE4001',
-        type: 'Theory',
-        from: '08:55',
-        to: '09:45',
-        slot: 'F1'
-    },
-]
-
-//function to retrieve data from storage according day(specified by tab nav)
-
-
-export default function ClassList() {
-
+export default function ClassList({ name }) {
   const isFocused = useIsFocused();
+  // const [loading, setLoading] = useState(false);
+  const [classList, setClassList] = React.useState([]);
 
-  useEffect(()=>{
-    getClassList();
-  },[isFocused])
+  async function getClassList(name) {
+    // console.log(classList)
+    await AsyncStorage.getItem(name)
+      .then((res) => {
+        setClassList(JSON.parse(res));
+        // setLoading(false);
+      })
+      .catch((e) => console.log(e));
+  }
 
+  useEffect(() => {
+    // setLoading(true);
+    getClassList(name);
+  }, [isFocused]);
 
-  return classlist.map((l, i) => (
-    <ListItem
-      containerStyle={[{ backgroundColor: "#26de81" }, styles.container]}
-      key={i}
-    >
-      <View>
-        <Text style={styles.textColor}>{l.from}</Text>
-        <Text style={styles.textColor}>{l.to}</Text>
-      </View>
-      <ListItem.Content containerStyle={styles.content}>
-        <ListItem.Title style={styles.textColor}>{l.subname}</ListItem.Title>
-        <ListItem.Subtitle style={styles.textColor}>{l.type}</ListItem.Subtitle>
-      </ListItem.Content>
-      <View>
-        <Text style={styles.textColor}>{l.slot}</Text>
-      </View>
-    </ListItem>
-  ));
+  function renderList(l) {
+    return (
+      <ListItem
+        containerStyle={[{ backgroundColor: "#26de81" }, styles.container]}
+      >
+        <View>
+          <Text style={styles.textColor}>{msToHuman(l.item.from)}</Text>
+          <Text style={styles.textColor}>{msToHuman(l.item.to)}</Text>
+        </View>
+        <ListItem.Content containerStyle={styles.content}>
+          <ListItem.Title style={styles.textColor}>
+            {l.item.subname}
+          </ListItem.Title>
+          <ListItem.Subtitle style={styles.textColor}>
+            {l.item.type}
+          </ListItem.Subtitle>
+        </ListItem.Content>
+        <View>
+          <Text style={styles.textColor}>{l.item.slot}</Text>
+        </View>
+      </ListItem>
+    );
+  }
+
+  if (classList != null) {
+    if (classList.length != 0) {
+      console.log("not empty list");
+      return (
+        <FlatList
+          data={classList}
+          renderItem={renderList}
+          keyExtractor={(sub) => sub.uid}
+        ></FlatList>
+      );
+    } else {
+      console.log(" empty list");
+      return null;
+    }
+  } else {
+    console.log(" empty list");
+    return null;
+  }
 }
 
 const styles = StyleSheet.create({

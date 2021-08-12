@@ -5,7 +5,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import RootNav from "./src/routes/rootNav";
 
+import Loading from "./src/components/Loader";
+
 export default function App() {
+
+  const [loading, setLoading] = React.useState(false);
 
   async function createEmptyStorage(){
     const monday = ["Monday", JSON.stringify([])]
@@ -15,22 +19,24 @@ export default function App() {
     const friday = ["Friday", JSON.stringify([])]
     const saturday = ["Saturday", JSON.stringify([])]
     const sunday = ["Sunday", JSON.stringify([])]
-    try{
-      await AsyncStorage.multiSet([monday, tuesday, wednesday, thursday, friday, saturday, sunday])
-      console.log('default values set')
-    } catch(e){
-      console.log(e)
-    }    
+    await AsyncStorage.multiSet([monday, tuesday, wednesday, thursday, friday, saturday, sunday])
+    .then(()=> setLoading(false))
+    .catch(e => console.log(e));
+    console.log('default values set')  
   }
 
   useEffect(() => {
     async function checkEmpty() {
+      setLoading(true);
       await AsyncStorage.getAllKeys()
         .then(async (res) => {
-          await AsyncStorage.clear()
+          // await AsyncStorage.clear()
           if(res.length == 0)
           {
             createEmptyStorage();
+          }
+          else{
+            setLoading(false);
           }     
         })
         .catch((e) => console.log(e));
@@ -38,13 +44,19 @@ export default function App() {
     checkEmpty();
   }, []);
 
-  return (
-    <NavigationContainer>
-      <SafeAreaProvider>
-        <RootNav />
-      </SafeAreaProvider>
-    </NavigationContainer>
-  );
+  if(loading){
+    return(<Loading />)
+  }
+  else{
+    return (
+      <NavigationContainer>
+        <SafeAreaProvider>
+          <RootNav />
+        </SafeAreaProvider>
+      </NavigationContainer>
+    );
+  }
+  
 }
 
 

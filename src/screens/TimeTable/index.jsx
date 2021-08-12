@@ -25,13 +25,20 @@ export default function Days() {
     }}
     sceneContainerStyle={{backgroundColor: '#fff'}}
     >
-      <Tab.Screen name="Monday" component={ClassList}/>
+      <Tab.Screen name="Monday" children={()=> <ClassList name="Monday" />}/>
+      <Tab.Screen name="Tuesday" children={()=> <ClassList name="Tuesday" />}/>
+      <Tab.Screen name="Wednesday" children={()=> <ClassList name="Wednesday" />}/>
+      <Tab.Screen name="Thursday" children={()=> <ClassList name="Thursday" />}/>
+      <Tab.Screen name="Friday" children={()=> <ClassList name="Friday" />}/>
+      <Tab.Screen name="Saturday" children={()=> <ClassList name="Saturday" />}/>
+      <Tab.Screen name="Sunday" children={()=> <ClassList name="Sunday" />}/>
+      {/* <Tab.Screen name="Monday" component={ClassList}/>
       <Tab.Screen name="Tuesday" component={ClassList}/>
       <Tab.Screen name="Wednesday" component={ClassList}/>
       <Tab.Screen name="Thursday" component={ClassList}/>
       <Tab.Screen name="Friday" component={ClassList}/>
       <Tab.Screen name="Saturday" component={ClassList}/>
-      <Tab.Screen name="Sunday" component={ClassList}/>
+      <Tab.Screen name="Sunday" component={ClassList}/> */}
     </Tab.Navigator>
   );
 }
