@@ -4,7 +4,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { Button, Text } from "react-native-elements";
+import { Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 import Header from "../../components/Header";
@@ -12,14 +12,17 @@ import InputBox from "../../components/InputBox";
 import PickType from "../../components/PickType";
 import TimePicker from "../../components/TimePicker";
 
+
+import {addToStorage} from "./helper";
+
 export default function AddClass() {
+  var dt = new Date();
   const [className, setClass] = useState("");
   const [slot, setSlot] = useState("");
   const [type, setType] = useState("Theory");
   const [day, setDay] = useState("Monday");
   const [fromTime, setFromTime] = useState(new Date());
-  const [toTime, setToTime] = useState(new Date());
-  // const [show, setShow] = useState(false);
+  const [toTime, setToTime] = useState(new Date(dt.setHours(dt.getHours()+1)));
   const [loading, setLoading] = useState(false);
 
   return (
@@ -101,9 +104,8 @@ export default function AddClass() {
           loading={loading}
           onPress={() => {
             setLoading(true);
-            setTimeout(() => {
-              setLoading(false);
-            }, 500);
+            addToStorage(className, slot, type, day, toTime, fromTime, loading);
+            setLoading(false);
           }}
         />
       </View>
@@ -116,13 +118,10 @@ const styles = StyleSheet.create({
     display: "flex",
   },
   headerContainer: {
-    // backgroundColor: 'red',
-    // flex: 1,
     marginTop: hp("2%"),
     marginHorizontal: wp("5%"),
   },
   inputForm: {
-    // flex: 1,
     marginHorizontal: wp("2%"),
   },
   picker: {
@@ -137,7 +136,6 @@ const styles = StyleSheet.create({
     marginHorizontal: wp("3%"),
   },
   addButtonContainer: {
-    // borderRadius: 20,
     marginTop: hp("3.5%"),
     marginHorizontal: wp('3%')
   },
