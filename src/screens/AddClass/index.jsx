@@ -15,7 +15,7 @@ import TimePicker from "../../components/TimePicker";
 
 import {addToStorage} from "./helper";
 
-export default function AddClass() {
+export default function AddClass({navigation}) {
   var dt = new Date();
   const [className, setClass] = useState("");
   const [slot, setSlot] = useState("");
@@ -104,7 +104,7 @@ export default function AddClass() {
           loading={loading}
           onPress={() => {
             setLoading(true);
-            addToStorage(className, slot, type, day, toTime, fromTime, loading);
+            addToStorage(className, slot, type, day, toTime, fromTime, navigation);
             setLoading(false);
           }}
         />

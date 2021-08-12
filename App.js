@@ -27,7 +27,7 @@ export default function App() {
     async function checkEmpty() {
       await AsyncStorage.getAllKeys()
         .then(async (res) => {
-          // await AsyncStorage.clear()
+          await AsyncStorage.clear()
           if(res.length == 0)
           {
             createEmptyStorage();

@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Alert} from 'react-native';
 
-export async function addToStorage(className, slot, type, day, toTime, fromTime){
+export async function addToStorage(className, slot, type, day, toTime, fromTime, navigation){
     console.log(className)
     console.log(slot)
     console.log(type)
@@ -25,7 +25,10 @@ export async function addToStorage(className, slot, type, day, toTime, fromTime)
             [
                 {
                     text: 'Ok',
-                    onPress: ()=> console.log('clearing values....')
+                    onPress: ()=> {
+                        console.log('clearing values....');
+                        navigation.navigate('timetable');
+                    }
                 }
             ]
         );
