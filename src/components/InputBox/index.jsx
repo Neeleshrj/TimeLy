@@ -3,12 +3,15 @@ import {StyleSheet} from 'react-native';
 import { Input } from "react-native-elements";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 
-export default function InputBox() {
+export default function InputBox({value, onChangeText, placeholder}) {
+  
   return (
     <Input
-      placeholder="Class Name"
+      placeholder={placeholder}
       style={styles.inputBox}
       inputContainerStyle={{borderBottomWidth: 0}}
+      value={value}
+      onChangeText={onChangeText}
     />
   );
 }
@@ -18,6 +21,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderRadius: 20,
         padding: hp('2%'),
-        marginTop: hp('3%'),
+        marginTop: hp('1%'),
     },
 })

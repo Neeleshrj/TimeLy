@@ -4,17 +4,23 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { Button } from "react-native-elements";
+import { Button, Text } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 import Header from "../../components/Header";
 import InputBox from "../../components/InputBox";
 import PickType from "../../components/PickType";
-import AddSlot from "../../components/AddSlot";
+import TimePicker from "../../components/TimePicker";
 
 export default function AddClass() {
+  const [className, setClass] = useState("");
+  const [slot, setSlot] = useState("");
   const [type, setType] = useState("Theory");
-  const [slot, setSlot] = useState("Morning");
+  const [day, setDay] = useState("Monday");
+  const [fromTime, setFromTime] = useState(new Date());
+  const [toTime, setToTime] = useState(new Date());
+  // const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   return (
     <ScrollView style={styles.container}>
@@ -23,32 +29,82 @@ export default function AddClass() {
         <Header text="New Class" />
       </View>
       <View style={styles.inputForm}>
-        <InputBox />
+        <InputBox
+          value={className}
+          onChangeText={(className) => {
+            setClass(className);
+          }}
+          placeholder="Class Name"
+        />
+        <InputBox
+          value={slot}
+          onChangeText={(slot) => {
+            setSlot(slot);
+          }}
+          placeholder="Slot (E.g. - A1,B1)"
+        />
         <View style={{ flexDirection: "row" }}>
           <View style={styles.picker}>
             <PickType
               value={type}
               onChange={(type) => setType(type)}
+              options="2"
               option1="Theory"
               option2="Lab"
             />
           </View>
           <View style={styles.picker}>
             <PickType
-              value={slot}
-              onChange={(slot) => setSlot(slot)}
-              option1="Morning"
-              option2="Afternoon"
+              value={day}
+              onChange={(day) => setDay(day)}
+              options="7"
+              option1="Monday"
+              option2="Tuesday"
+              option3="Wednesday"
+              option4="Thursday"
+              option5="Friday"
+              option6="Saturday"
+              option7="Sunday"
+            />
+          </View>
+        </View>
+        <View style={{ flexDirection: "row" }}>
+          <View style={styles.timePicker}>
+            <TimePicker
+              label="From"
+              time={fromTime}
+              setTime={(fromTime) => setFromTime(fromTime)}
+            />
+          </View>
+          <View style={styles.timePicker}>
+            <TimePicker
+              label="To"
+              time={toTime}
+              setTime={(toTime) => setToTime(toTime)}
             />
           </View>
         </View>
 
-        <AddSlot type={type} slot={slot} />
         <Button
-          icon={<Icon name="arrow-right" size={15} color="white" />}
+          icon={
+            <Icon
+              name="arrow-right"
+              size={15}
+              color="white"
+              style={{ padding: hp("1%") }}
+            />
+          }
+          iconRight={true}
           title="Add"
           containerStyle={styles.addButtonContainer}
           buttonStyle={styles.addButton}
+          loading={loading}
+          onPress={() => {
+            setLoading(true);
+            setTimeout(() => {
+              setLoading(false);
+            }, 500);
+          }}
         />
       </View>
     </ScrollView>
@@ -71,14 +127,19 @@ const styles = StyleSheet.create({
   },
   picker: {
     flex: 1,
-    backgroundColor: "#353b48",
+    backgroundColor: "#2c3e50",
     marginHorizontal: wp("3%"),
     borderRadius: 20,
     marginBottom: hp("2%"),
   },
+  timePicker: {
+    flex: 1,
+    marginHorizontal: wp("3%"),
+  },
   addButtonContainer: {
     // borderRadius: 20,
     marginTop: hp("3.5%"),
+    marginHorizontal: wp('3%')
   },
   addButton: {
     backgroundColor: "#3498db",
