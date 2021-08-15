@@ -30,7 +30,7 @@ export default function App() {
       setLoading(true);
       await AsyncStorage.getAllKeys()
         .then(async (res) => {
-          await AsyncStorage.clear()
+          // await AsyncStorage.clear()
           if(res.length == 0)
           {
             createEmptyStorage();

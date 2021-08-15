@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ScrollView, View, StyleSheet } from "react-native";
+import { ScrollView, View, StyleSheet, Alert } from "react-native";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -12,15 +12,14 @@ import InputBox from "../../components/InputBox";
 import PickType from "../../components/PickType";
 import TimePicker from "../../components/TimePicker";
 
+import { addToStorage, removeFromStorage } from "./helper";
 
-import {addToStorage} from "./helper";
-
-export default function EditClass({navigation, route}) {
-  const {Uid, From, To, Subname, Type, Slot } = route.params;
+export default function EditClass({ navigation, route }) {
+  const { Uid, From, To, Subname, Type, Slot, Day } = route.params;
   const [className, setClass] = useState(Subname);
   const [slot, setSlot] = useState(Slot);
   const [type, setType] = useState(Type);
-  const [day, setDay] = useState("Monday");
+  const [day, setDay] = useState(Day);
   const [fromTime, setFromTime] = useState(new Date(From));
   const [toTime, setToTime] = useState(new Date(To));
   const [loading, setLoading] = useState(false);
@@ -86,27 +85,71 @@ export default function EditClass({navigation, route}) {
             />
           </View>
         </View>
-
-        <Button
-          icon={
-            <Icon
-              name="arrow-right"
-              size={15}
-              color="white"
-              style={{ padding: hp("1%") }}
-            />
-          }
-          iconRight={true}
-          title="Change"
-          containerStyle={styles.addButtonContainer}
-          buttonStyle={styles.addButton}
-          loading={loading}
-          onPress={() => {
-            setLoading(true);
-            addToStorage(Uid, className, slot, type, day, toTime, fromTime, navigation);
-            setLoading(false);
-          }}
-        />
+        <View style={{ flexDirection: "row" }}>
+          <Button
+            icon={
+              <Icon
+                name="arrow-right"
+                size={15}
+                color="white"
+                style={{ padding: hp("1%") }}
+              />
+            }
+            iconRight={true}
+            title="Save"
+            containerStyle={styles.addButtonContainer}
+            buttonStyle={styles.addButton}
+            loading={loading}
+            onPress={() => {
+              setLoading(true);
+              addToStorage(
+                Uid,
+                className,
+                slot,
+                type,
+                day,
+                toTime,
+                fromTime,
+                navigation
+              );
+              setLoading(false);
+            }}
+          />
+          <Button
+            icon={
+              <Icon
+                name="arrow-right"
+                size={15}
+                color="white"
+                style={{ padding: hp("1%") }}
+              />
+            }
+            iconRight={true}
+            title="Delete"
+            containerStyle={styles.addButtonContainer}
+            buttonStyle={styles.removeButton}
+            loading={loading}
+            onPress={() => {
+              setLoading(true);
+              Alert.alert(
+                  'Caution!',
+                  'Are you sure you want to delete this class?',
+                  [
+                      {
+                          text: 'Yes',
+                          onPress: ()=> removeFromStorage(Uid, navigation, Day)
+                      },
+                      {
+                          text: 'Cancel',
+                          styles: 'cancel',
+                          onPress: ()=> console.log('canceled...')
+                      }
+                  ]
+              )
+              setLoading(false);
+            }}
+          />
+        </View>
       </View>
     </ScrollView>
   );
@@ -136,9 +179,14 @@ const styles = StyleSheet.create({
   },
   addButtonContainer: {
     marginTop: hp("3.5%"),
-    marginHorizontal: wp('3%')
+    marginHorizontal: wp("3%"),
+    flex: 1
   },
   addButton: {
     backgroundColor: "#3498db",
+    flex: 1
+  },
+  removeButton: {
+    backgroundColor: "#ee5253",
   },
 });

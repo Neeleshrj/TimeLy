@@ -8,8 +8,6 @@ import {
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import Loading from "../Loader";
-
 import { msToHuman } from "./helper";
 
 export default function ClassList({ name }) {
@@ -47,6 +45,7 @@ export default function ClassList({ name }) {
               Subname: l.item.subname,
               Type: l.item.type,
               Slot: l.item.slot,
+              Day: name,
             })
           }
         >

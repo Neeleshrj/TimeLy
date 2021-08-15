@@ -11,51 +11,80 @@ export async function addToStorage(
   fromTime,
   navigation
 ) {
-  var arr = await AsyncStorage.getItem(day)
-    .then(async () => {
-      const data = {
-        uid: uid,
-        subname: className,
-        slot: slot,
-        type: type,
-        from: fromTime,
-        to: toTime,
-      };
+  var arr = await AsyncStorage.getItem(day);
 
-      arr = JSON.parse(arr);
-      let objIndex = arr.findIndex((obj) => obj.uid == uid);
-      console.log(objIndex);
-      if (objIndex != -1) {
-        arr[objIndex] = data;
-      } else {
-        arr = arr.concat(data);
-        
-      }
+  const data = {
+    uid: uid,
+    subname: className,
+    slot: slot,
+    type: type,
+    from: fromTime,
+    to: toTime,
+  };
 
-      await AsyncStorage.setItem(day, JSON.stringify(arr))
-        .then(() => {
-          console.log(arr);
-          console.log("added to async storage");
-          Alert.alert("Success!", "Class Added Successfully!", [
-            {
-              text: "Ok",
-              onPress: () => {
-                console.log("clearing values....");
-                navigation.navigate("timetable");
-              },
-            },
-          ]);
-        })
-        .catch((e) => {
-          console.log("failed to store..");
-          Alert.alert("Failed!", e, [
-            {
-              text: "Retry",
-              onPress: () => console.log("failed..."),
-            },
-          ]);
-        });
+  arr = JSON.parse(arr);
+  let objIndex = arr.findIndex((obj) => obj.uid == uid);
+
+  if (objIndex != -1) {
+    arr[objIndex] = data;
+  } else {
+    arr = arr.concat(data);
+  }
+
+  await AsyncStorage.setItem(day, JSON.stringify(arr))
+    .then(() => {
+      console.log("edited and added to async storage");
+      Alert.alert("Success!", "Class Added Successfully!", [
+        {
+          text: "Ok",
+          onPress: () => {
+            navigation.navigate("timetable");
+          },
+        },
+      ]);
     })
-    .catch((e) => console.log(e));
-  //   console.log(arr);
+    .catch((e) => {
+      console.log("failed to store..");
+      Alert.alert("Failed!", e, [
+        {
+          text: "Retry",
+          onPress: () => console.log("failed..."),
+        },
+      ]);
+    });
+}
+
+
+export async function removeFromStorage(uid,navigation, day){
+    var arr = await AsyncStorage.getItem(day);
+
+    arr = JSON.parse(arr);
+    let objIndex = arr.findIndex((obj) => obj.uid == uid);
+
+    arr.splice(objIndex, 1);
+
+    // console.log(arr);
+
+    await AsyncStorage.setItem(day, JSON.stringify(arr))
+    .then(() => {
+        console.log("edited and added to async storage");
+      Alert.alert("Success!", "Class Removed!", [
+        {
+          text: "Ok",
+          onPress: () => {
+            navigation.navigate("timetable");
+          },
+        },
+      ]);
+    }).catch(e => {
+        console.log("failed to Remove..");
+      Alert.alert("Failed!", e, [
+        {
+          text: "Retry",
+          onPress: () => console.log("failed..."),
+        },
+      ]);
+    });
+
+
 }
