@@ -110,6 +110,7 @@ export default function EditClass({ navigation, route }) {
                 day,
                 toTime,
                 fromTime,
+                Day,
                 navigation
               );
               setLoading(false);
@@ -137,7 +138,7 @@ export default function EditClass({ navigation, route }) {
                   [
                       {
                           text: 'Yes',
-                          onPress: ()=> removeFromStorage(Uid, navigation, Day)
+                          onPress: ()=> removeFromStorage(Uid, navigation, Day, 1)
                       },
                       {
                           text: 'Cancel',
