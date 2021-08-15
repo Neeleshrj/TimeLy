@@ -1,8 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
-import uuid from "react-native-uuid";
 
 export async function addToStorage(
+  uid,
   className,
   slot,
   type,
@@ -11,23 +11,30 @@ export async function addToStorage(
   fromTime,
   navigation
 ) {
-  let arr = await AsyncStorage.getItem(day)
+  var arr = await AsyncStorage.getItem(day)
     .then(async () => {
-      const data = [
-        {
-          uid: uuid.v4(),
-          subname: className,
-          slot: slot,
-          type: type,
-          from: fromTime,
-          to: toTime,
-        },
-      ];
+      const data = {
+        uid: uid,
+        subname: className,
+        slot: slot,
+        type: type,
+        from: fromTime,
+        to: toTime,
+      };
 
-      arr = JSON.parse(arr).concat(data);
+      arr = JSON.parse(arr);
+      let objIndex = arr.findIndex((obj) => obj.uid == uid);
+      console.log(objIndex);
+      if (objIndex != -1) {
+        arr[objIndex] = data;
+      } else {
+        arr = arr.concat(data);
+        
+      }
 
       await AsyncStorage.setItem(day, JSON.stringify(arr))
         .then(() => {
+          console.log(arr);
           console.log("added to async storage");
           Alert.alert("Success!", "Class Added Successfully!", [
             {
@@ -50,4 +57,5 @@ export async function addToStorage(
         });
     })
     .catch((e) => console.log(e));
+  //   console.log(arr);
 }

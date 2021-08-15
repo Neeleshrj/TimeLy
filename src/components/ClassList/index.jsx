@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, Text, StyleSheet, FlatList, TouchableWithoutFeedback } from "react-native";
 import { ListItem } from "react-native-elements";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { useIsFocused } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Loading from "../Loader";
@@ -14,8 +14,10 @@ import { msToHuman } from "./helper";
 
 export default function ClassList({ name }) {
   const isFocused = useIsFocused();
-  // const [loading, setLoading] = useState(false);
+  const [modalVisible, setVisible] = useState(false);
   const [classList, setClassList] = React.useState([]);
+
+  const navigation = useNavigation();
 
   async function getClassList(name) {
     // console.log(classList)
@@ -34,31 +36,43 @@ export default function ClassList({ name }) {
 
   function renderList(l) {
     return (
-      <ListItem
-        containerStyle={[{ backgroundColor: "#26de81" }, styles.container]}
-      >
-        <View>
-          <Text style={styles.textColor}>{msToHuman(l.item.from)}</Text>
-          <Text style={styles.textColor}>{msToHuman(l.item.to)}</Text>
-        </View>
-        <ListItem.Content containerStyle={styles.content}>
-          <ListItem.Title style={styles.textColor}>
-            {l.item.subname}
-          </ListItem.Title>
-          <ListItem.Subtitle style={styles.textColor}>
-            {l.item.type}
-          </ListItem.Subtitle>
-        </ListItem.Content>
-        <View>
-          <Text style={styles.textColor}>{l.item.slot}</Text>
-        </View>
-      </ListItem>
+      <TouchableWithoutFeedback>
+        <ListItem
+          containerStyle={[{ backgroundColor: "#26de81" }, styles.container]}
+          onLongPress={() =>
+            navigation.navigate("editclass", {
+              Uid: l.item.uid,
+              From: l.item.from,
+              To: l.item.to,
+              Subname: l.item.subname,
+              Type: l.item.type,
+              Slot: l.item.slot,
+            })
+          }
+        >
+          <View>
+            <Text style={styles.textColor}>{msToHuman(l.item.from)}</Text>
+            <Text style={styles.textColor}>{msToHuman(l.item.to)}</Text>
+          </View>
+          <ListItem.Content containerStyle={styles.content}>
+            <ListItem.Title style={styles.textColor}>
+              {l.item.subname}
+            </ListItem.Title>
+            <ListItem.Subtitle style={styles.textColor}>
+              {l.item.type}
+            </ListItem.Subtitle>
+          </ListItem.Content>
+          <View>
+            <Text style={styles.textColor}>{l.item.slot}</Text>
+          </View>
+        </ListItem>
+      </TouchableWithoutFeedback>
     );
   }
 
   if (classList != null) {
     if (classList.length != 0) {
-      console.log("not empty list");
+      // console.log("not empty list");
       return (
         <FlatList
           data={classList}
@@ -67,11 +81,11 @@ export default function ClassList({ name }) {
         ></FlatList>
       );
     } else {
-      console.log(" empty list");
+      // console.log(" empty list");
       return null;
     }
   } else {
-    console.log(" empty list");
+    // console.log(" empty list");
     return null;
   }
 }

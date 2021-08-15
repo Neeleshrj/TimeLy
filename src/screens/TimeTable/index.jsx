@@ -32,13 +32,6 @@ export default function Days() {
       <Tab.Screen name="Friday" children={()=> <ClassList name="Friday" />}/>
       <Tab.Screen name="Saturday" children={()=> <ClassList name="Saturday" />}/>
       <Tab.Screen name="Sunday" children={()=> <ClassList name="Sunday" />}/>
-      {/* <Tab.Screen name="Monday" component={ClassList}/>
-      <Tab.Screen name="Tuesday" component={ClassList}/>
-      <Tab.Screen name="Wednesday" component={ClassList}/>
-      <Tab.Screen name="Thursday" component={ClassList}/>
-      <Tab.Screen name="Friday" component={ClassList}/>
-      <Tab.Screen name="Saturday" component={ClassList}/>
-      <Tab.Screen name="Sunday" component={ClassList}/> */}
     </Tab.Navigator>
   );
 }
