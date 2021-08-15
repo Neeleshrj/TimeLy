@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, FlatList, TouchableWithoutFeedback } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import { ListItem } from "react-native-elements";
 import {
   widthPercentageToDP as wp,
@@ -34,38 +40,38 @@ export default function ClassList({ name }) {
 
   function renderList(l) {
     return (
-      <TouchableWithoutFeedback>
-        <ListItem
-          containerStyle={[{ backgroundColor: "#26de81" }, styles.container]}
-          onLongPress={() =>
-            navigation.navigate("editclass", {
-              Uid: l.item.uid,
-              From: l.item.from,
-              To: l.item.to,
-              Subname: l.item.subname,
-              Type: l.item.type,
-              Slot: l.item.slot,
-              Day: name,
-            })
-          }
-        >
-          <View>
-            <Text style={styles.textColor}>{msToHuman(l.item.from)}</Text>
-            <Text style={styles.textColor}>{msToHuman(l.item.to)}</Text>
-          </View>
-          <ListItem.Content containerStyle={styles.content}>
-            <ListItem.Title style={styles.textColor}>
-              {l.item.subname}
-            </ListItem.Title>
-            <ListItem.Subtitle style={styles.textColor}>
-              {l.item.type}
-            </ListItem.Subtitle>
-          </ListItem.Content>
-          <View>
-            <Text style={styles.textColor}>{l.item.slot}</Text>
-          </View>
-        </ListItem>
-      </TouchableWithoutFeedback>
+      <ListItem
+        containerStyle={[{ backgroundColor: l.item.color }, styles.container]}
+        underlayColor="transparent"
+        onLongPress={() =>
+          navigation.navigate("editclass", {
+            Uid: l.item.uid,
+            From: l.item.from,
+            To: l.item.to,
+            Subname: l.item.subname,
+            Type: l.item.type,
+            Slot: l.item.slot,
+            Color: l.item.color,
+            Day: name,
+          })
+        }
+      >
+        <View>
+          <Text style={styles.textColor}>{msToHuman(l.item.from)}</Text>
+          <Text style={styles.textColor}>{msToHuman(l.item.to)}</Text>
+        </View>
+        <ListItem.Content containerStyle={styles.content}>
+          <ListItem.Title style={styles.textColor}>
+            {l.item.subname}
+          </ListItem.Title>
+          <ListItem.Subtitle style={styles.textColor}>
+            {l.item.type}
+          </ListItem.Subtitle>
+        </ListItem.Content>
+        <View>
+          <Text style={styles.textColor}>{l.item.slot}</Text>
+        </View>
+      </ListItem>
     );
   }
 
@@ -73,11 +79,11 @@ export default function ClassList({ name }) {
     if (classList.length != 0) {
       // console.log("not empty list");
       return (
-        <FlatList
-          data={classList}
-          renderItem={renderList}
-          keyExtractor={(sub) => sub.uid}
-        ></FlatList>
+          <FlatList
+            data={classList}
+            renderItem={renderList}
+            keyExtractor={(sub) => sub.uid}
+          ></FlatList>
       );
     } else {
       // console.log(" empty list");

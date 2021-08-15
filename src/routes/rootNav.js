@@ -7,6 +7,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import TimeTable from '../screens/TimeTable';
 import AddClass from '../screens/AddClass';
 import EditClass from '../screens/EditClass';
+import ColorPicker from '../components/ColorPicker';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,6 +32,7 @@ export default function RootNav(){
             })}/>
             <Stack.Screen name="addclass" component={AddClass} options={{ title: 'Add Class'}}/>
             <Stack.Screen name="editclass" component={EditClass} options={{ title: 'Edit Class'}}/>
+            <Stack.Screen name="colorpick" component={ColorPicker} options={{ title: 'Color Picker'}}/>
         </Stack.Navigator>
     );
 }

@@ -89,7 +89,7 @@ export default function EditClass({ navigation, route }) {
           <Button
             icon={
               <Icon
-                name="arrow-right"
+                name="save"
                 size={15}
                 color="white"
                 style={{ padding: hp("1%") }}
@@ -119,7 +119,7 @@ export default function EditClass({ navigation, route }) {
           <Button
             icon={
               <Icon
-                name="arrow-right"
+                name="trash"
                 size={15}
                 color="white"
                 style={{ padding: hp("1%") }}

@@ -12,6 +12,7 @@ export default function InputBox({value, onChangeText, placeholder}) {
       inputContainerStyle={{borderBottomWidth: 0}}
       value={value}
       onChangeText={onChangeText}
+      onPressOut={() => console.log('pressed out...')}
     />
   );
 }
