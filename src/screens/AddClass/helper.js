@@ -26,23 +26,19 @@ export async function addToStorage(
   ];
 
   arr = JSON.parse(arr).concat(data);
-  // let sortArr = arr.sort(function(p1,p2){
-  //   return p1.from.getTime() - p2.from.getTime();
-  // })
   
-  // console.log(sortArr);
-  
-  // function compare(p1,p2){
-  //   if(p1.from.getTime() > p2.from.getTIme()){
-  //     return -1;
-  //   }
-  //   if(p1.from.getTime() < p2.from.getTIme()){
-  //     return 1;
-  //   }
-  //   return 0;
-  // }
+  //sorting 
+  function compare(p1, p2) {
+    if (new Date(p1.from).getTime() < new Date(p2.from).getTime()) {
+      return -1;
+    }
+    if (new Date(p1.from).getTime() > new Date(p2.from).getTime()) {
+      return 1;
+    }
+    return 0;
+  }
 
-  // console.log(arr.sort(compare));
+  arr.sort(compare);
 
   await AsyncStorage.setItem(day, JSON.stringify(arr))
     .then(() => {

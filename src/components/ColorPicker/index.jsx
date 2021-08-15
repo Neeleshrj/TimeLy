@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import React, { useEffect} from "react";
+import { View, StyleSheet } from "react-native";
 import { Button, Overlay } from "react-native-elements";
 import {
   widthPercentageToDP as wp,
@@ -38,7 +38,7 @@ export default function ColorPicker({
         buttonStyle={{ backgroundColor: color }}
         onPress={toggleOverlay}
       />
-      <Overlay isVisible={visible} onBackdropPress={{toggleOverlay}}>
+      <Overlay isVisible={visible} onBackdropPress={() => {changeColor(newcolor);toggleOverlay()}}>
         <View style={styles.container}>
           <CircleButton color="#feca57" onPress={() => {setNewColor("#feca57");toggleOverlay()}} />
           <CircleButton color="#ff9f43" onPress={() => {setNewColor("#ff9f43");toggleOverlay()}} />

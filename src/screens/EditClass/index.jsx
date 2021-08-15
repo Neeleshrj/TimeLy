@@ -11,11 +11,12 @@ import Header from "../../components/Header";
 import InputBox from "../../components/InputBox";
 import PickType from "../../components/PickType";
 import TimePicker from "../../components/TimePicker";
+import ColorPicker from "../../components/ColorPicker";
 
 import { addToStorage, removeFromStorage } from "./helper";
 
 export default function EditClass({ navigation, route }) {
-  const { Uid, From, To, Subname, Type, Slot, Day } = route.params;
+  const { Uid, From, To, Subname, Type, Slot, Color, Day } = route.params;
   const [className, setClass] = useState(Subname);
   const [slot, setSlot] = useState(Slot);
   const [type, setType] = useState(Type);
@@ -23,6 +24,11 @@ export default function EditClass({ navigation, route }) {
   const [fromTime, setFromTime] = useState(new Date(From));
   const [toTime, setToTime] = useState(new Date(To));
   const [loading, setLoading] = useState(false);
+  const [color, setColor] = useState(Color);
+  const [visible, setVisible] = useState(false);
+  const toggleOverlay = () => {
+    setVisible(!visible);
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -85,6 +91,7 @@ export default function EditClass({ navigation, route }) {
             />
           </View>
         </View>
+        <ColorPicker visible={visible} toggleOverlay={toggleOverlay} color={color} changeColor={(color) => setColor(color)} />
         <View style={{ flexDirection: "row" }}>
           <Button
             icon={
@@ -111,6 +118,7 @@ export default function EditClass({ navigation, route }) {
                 toTime,
                 fromTime,
                 Day,
+                color,
                 navigation
               );
               setLoading(false);

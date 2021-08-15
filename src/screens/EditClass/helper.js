@@ -10,6 +10,7 @@ export async function addToStorage(
   toTime,
   fromTime,
   Day,
+  color,
   navigation
 ) {
   var arr = await AsyncStorage.getItem(day);
@@ -21,9 +22,11 @@ export async function addToStorage(
     type: type,
     from: fromTime,
     to: toTime,
+    color: color,
   };
 
   arr = JSON.parse(arr);
+  console.log(arr)
   let objIndex = arr.findIndex((obj) => obj.uid == uid);
 
   if (objIndex != -1) {
@@ -32,6 +35,19 @@ export async function addToStorage(
     arr = arr.concat(data);
     removeFromStorage(uid, navigation, Day, 0);
   }
+
+  //Sorting
+  function compare(p1, p2) {
+    if (new Date(p1.from).getTime() < new Date(p2.from).getTime()) {
+      return -1;
+    }
+    if (new Date(p1.from).getTime() > new Date(p2.from).getTime()) {
+      return 1;
+    }
+    return 0;
+  }
+
+  arr.sort(compare);
 
   await AsyncStorage.setItem(day, JSON.stringify(arr))
     .then(() => {
