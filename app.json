@@ -25,6 +25,7 @@
     "android": {
       "icon": "./assets/icon.png",
       "package": "com.androidclub.timely",
+      "permissions": [],
       "versionCode": 1
     },
     "plugins": [
