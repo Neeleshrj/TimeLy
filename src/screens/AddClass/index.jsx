@@ -61,6 +61,7 @@ export default function AddClass({ navigation }) {
           <View style={styles.picker}>
             <PickType
               value={type}
+              label="Type"
               onChange={(type) => setType(type)}
               options="2"
               option1="Theory"
@@ -70,6 +71,7 @@ export default function AddClass({ navigation }) {
           <View style={styles.picker}>
             <PickType
               value={day}
+              label="Day"
               onChange={(day) => setDay(day)}
               options="7"
               option1="Monday"
@@ -164,9 +166,9 @@ const styles = StyleSheet.create({
   },
   picker: {
     flex: 1,
-    backgroundColor: "#2c3e50",
+    // backgroundColor: "#2c3e50",
     marginHorizontal: wp("3%"),
-    borderRadius: 20,
+    // borderRadius: 20,
     marginBottom: hp("2%"),
   },
   timePicker: {

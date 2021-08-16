@@ -1,8 +1,9 @@
 import React from "react";
-import { StyleSheet } from "react-native";
-import { Button, Overlay } from "react-native-elements";
+import { StyleSheet, View } from "react-native";
+import { Button, Overlay, Text } from "react-native-elements";
 import { Picker } from "@react-native-picker/picker";
-import { widthPercentageToDP } from "react-native-responsive-screen";
+import { heightPercentageToDP, widthPercentageToDP } from "react-native-responsive-screen";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function PickType({
   value,
@@ -15,6 +16,7 @@ export default function PickType({
   option5,
   option6,
   option7,
+  label,
 }) {
   const [visible, setVisible] = React.useState(false);
 
@@ -25,12 +27,24 @@ export default function PickType({
   if (options == 2) {
     return (
       <>
+        <View>
+          <Text>{label}</Text>
+        </View>
         <Button
           title={value}
           type="outline"
           onPress={() => setVisible(true)}
           buttonStyle={styles.btn}
           titleStyle={{ color: "#fff" }}
+          icon={
+            <Icon
+              name="caret-down"
+              size={15}
+              color="white"
+              style={styles.dropIcon}
+            />
+          }
+          iconRight
         />
         <Overlay
           isVisible={visible}
@@ -41,13 +55,15 @@ export default function PickType({
             title="Done"
             type="clear"
             onPress={() => toggleOverlay()}
-            buttonStyle={styles.btn}
+            buttonStyle={{backgroundColor: 'transparent'}}
             titleStyle={{ color: "#fc5c65" }}
           />
           <Picker
             selectedValue={value}
             onValueChange={onChange}
             mode="dropdown"
+            style={styles.picker}
+            // dropdownIconColor="#fff"
           >
             <Picker.Item label={option1} value={option1} />
             <Picker.Item label={option2} value={option2} />
@@ -58,12 +74,24 @@ export default function PickType({
   } else {
     return (
       <>
+        <View>
+          <Text>{label}</Text>
+        </View>
         <Button
           title={value}
           type="outline"
           onPress={() => setVisible(true)}
           buttonStyle={styles.btn}
           titleStyle={{ color: "#fff" }}
+          icon={
+            <Icon
+              name="caret-down"
+              size={15}
+              color="white"
+              style={styles.dropIcon}
+            />
+          }
+          iconRight
         />
         <Overlay
           isVisible={visible}
@@ -74,7 +102,7 @@ export default function PickType({
             title="Done"
             type="clear"
             onPress={() => toggleOverlay()}
-            buttonStyle={styles.btn}
+            buttonStyle={{backgroundColor: 'transparent'}}
             titleStyle={{ color: "#fc5c65" }}
           />
           <Picker
@@ -99,9 +127,14 @@ export default function PickType({
 const styles = StyleSheet.create({
   btn: {
     borderColor: "transparent",
+    backgroundColor: "#2c3e50",
+    marginTop: heightPercentageToDP('1%')
     // backgroundColor: '#f1f2f6'
   },
   overlay: {
     width: widthPercentageToDP("50%"),
+  },
+  dropIcon: {
+    marginHorizontal: widthPercentageToDP('2%'),
   },
 });
