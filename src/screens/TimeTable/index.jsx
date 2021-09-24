@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
@@ -10,6 +10,14 @@ import ClassList from '../../components/ClassList';
 const Tab = createMaterialTopTabNavigator();
 
 export default function Days() {
+  const [currentDay, setCurrentDay] = React.useState("");
+
+  useEffect(()=>{
+    var n =  new Date().getDay();
+    var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+    setCurrentDay(days[n]);
+  },[])
+
   return (
     <Tab.Navigator 
         backBehaviour="firstRoute" 
@@ -23,7 +31,8 @@ export default function Days() {
             tabBarInactiveTintColor: '#747d8c',
             tabBarPressColor: 'transparent'
     }}
-    sceneContainerStyle={{backgroundColor: '#fff'}}
+      sceneContainerStyle={{backgroundColor: '#fff'}}
+      initialRouteName={currentDay}
     >
       <Tab.Screen name="Monday" children={()=> <ClassList name="Monday" />}/>
       <Tab.Screen name="Tuesday" children={()=> <ClassList name="Tuesday" />}/>

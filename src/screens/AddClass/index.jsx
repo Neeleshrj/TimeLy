@@ -13,6 +13,7 @@ import InputBox from "../../components/InputBox";
 import PickType from "../../components/PickType";
 import TimePicker from "../../components/TimePicker";
 import ColorPicker from "../../components/ColorPicker";
+import Notification,{schedulePushNotification} from "../notification";
 
 /* Helper function*/
 import { addToStorage } from "./helper";
@@ -34,6 +35,7 @@ export default function AddClass({ navigation }) {
   const toggleOverlay = () => {
     setVisible(!visible);
   };
+  const [enableNotifications, setEnableNotifications] = useState(true);
 
   return (
     <ScrollView style={styles.container}>
@@ -145,8 +147,9 @@ export default function AddClass({ navigation }) {
               }
               setLoading(false);
             }}
-          />
+          />   
         </View>
+        <Notification />
       </View>
       
     </ScrollView>

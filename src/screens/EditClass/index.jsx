@@ -147,14 +147,14 @@ export default function EditClass({ navigation, route }) {
                   'Are you sure you want to delete this class?',
                   [
                       {
+                        text: 'Cancel',
+                        styles: 'cancel',
+                        onPress: ()=> console.log('canceled...')
+                      },
+                      {
                           text: 'Yes',
                           onPress: ()=> removeFromStorage(Uid, navigation, Day, 1)
                       },
-                      {
-                          text: 'Cancel',
-                          styles: 'cancel',
-                          onPress: ()=> console.log('canceled...')
-                      }
                   ]
               )
               setLoading(false);
