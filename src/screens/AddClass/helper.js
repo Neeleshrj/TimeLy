@@ -13,9 +13,13 @@ export async function addToStorage(
   color,
   navigation
 ) {
-  var notifId = schedulePushNotification(className,slot,type,fromTime,day);
-  console.log('inside helper func')
-  console.log(notifId)
+  var notifId = "";
+  (async () => {
+    notifId = await schedulePushNotification(className,slot,type,fromTime,day);
+    console.log('inside helper func')
+    console.log(notifId)
+  })()
+  
   let arr = await AsyncStorage.getItem(day);
   const data = [
     {
@@ -26,7 +30,7 @@ export async function addToStorage(
       from: fromTime,
       to: toTime,
       color: color,
-      
+      notifId: notifId,
     },
   ];
 

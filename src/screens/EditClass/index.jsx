@@ -12,11 +12,12 @@ import InputBox from "../../components/InputBox";
 import PickType from "../../components/PickType";
 import TimePicker from "../../components/TimePicker";
 import ColorPicker from "../../components/ColorPicker";
+import Notification from "../notification";
 
 import { addToStorage, removeFromStorage } from "./helper";
 
 export default function EditClass({ navigation, route }) {
-  const { Uid, From, To, Subname, Type, Slot, Color, Day } = route.params;
+  const { Uid, From, To, Subname, Type, Slot, Color, Day, NotifId } = route.params;
   const [className, setClass] = useState(Subname);
   const [slot, setSlot] = useState(Slot);
   const [type, setType] = useState(Type);
@@ -121,6 +122,7 @@ export default function EditClass({ navigation, route }) {
                 fromTime,
                 Day,
                 color,
+                NotifId,
                 navigation
               );
               setLoading(false);
@@ -160,6 +162,7 @@ export default function EditClass({ navigation, route }) {
               setLoading(false);
             }}
           />
+          <Notification />
         </View>
       </View>
     </ScrollView>

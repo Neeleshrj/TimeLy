@@ -25,8 +25,9 @@
     "android": {
       "icon": "./assets/icon.png",
       "package": "com.androidclub.timely",
-      "permissions": [],
-      "versionCode": 1
+      "permissions": ["RECEIVE_BOOT_COMPLETED"],
+      "versionCode": 1,
+      "useNextNotificationsApi": true
     },
     "plugins": [
       [

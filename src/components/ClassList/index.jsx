@@ -53,6 +53,7 @@ export default function ClassList({ name }) {
             Slot: l.item.slot,
             Color: l.item.color,
             Day: name,
+            notifId: l.item.notifId,
           })
         }
       >

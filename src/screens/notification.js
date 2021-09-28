@@ -1,9 +1,7 @@
 import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
 import React, { useState, useEffect, useRef } from "react";
-import { View, Button, Platform } from "react-native";
-import { Switch, Text } from "react-native-elements";
-import { heightPercentageToDP } from "react-native-responsive-screen";
+import { View, Platform } from "react-native";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -75,10 +73,11 @@ export async function schedulePushNotification(
   const weekday = days.indexOf(day) + 1;
   const hours = time.getHours();
   const minutes = time.getMinutes();
-  await Notifications.scheduleNotificationAsync({
+  const id = await Notifications.scheduleNotificationAsync({
     content: {
       title: className + " " + type,
       body: slot,
+      sound: 'default',
     },
     trigger: {
       weekday: weekday,
@@ -86,12 +85,9 @@ export async function schedulePushNotification(
       minute: minutes,
       repeats: true,
     },
-  })
-    .then((res) => {
-      console.log(res)
-      return res;
-    })
-    .catch((e) => console.log(e));
+  });
+  console.log(id)
+  return id;
 }
 
 async function registerForPushNotificationsAsync() {
@@ -124,4 +120,8 @@ async function registerForPushNotificationsAsync() {
   }
 
   return token;
+}
+
+export async function cancelNotification(notifId){
+  await Notifications.cancelScheduledNotificationAsync(notifId);
 }
