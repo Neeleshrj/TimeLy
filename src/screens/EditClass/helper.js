@@ -12,18 +12,17 @@ export async function addToStorage(
   fromTime,
   Day,
   color,
-  oldNotifId,
+  newNotifId,
   navigation
 ) {
   var arr = await AsyncStorage.getItem(day);
 
-  cancelNotification(oldNotifId);
-  var notifId = "";
-  (async () => {
-    notifId = await schedulePushNotification(className,slot,type,fromTime,day);
-    console.log('inside helper func')
-    console.log(notifId)
-  })()
+  // var notifId = "";
+  // (async () => {
+  //   notifId = await schedulePushNotification(className,slot,type,fromTime,day);
+  //   console.log('inside helper func')
+  //   console.log(notifId)
+  // })()
 
   const data = {
     uid: uid,
@@ -33,11 +32,11 @@ export async function addToStorage(
     from: fromTime,
     to: toTime,
     color: color,
-    notifId: notifId,
+    notifId: newNotifId,
   };
 
   arr = JSON.parse(arr);
-  console.log(arr)
+  // console.log(arr)
   let objIndex = arr.findIndex((obj) => obj.uid == uid);
 
   if (objIndex != -1) {
@@ -85,7 +84,7 @@ export async function addToStorage(
 
 export async function removeFromStorage(uid, navigation, day, showMsg) {
   var arr = await AsyncStorage.getItem(day);
-
+  
   arr = JSON.parse(arr);
   let objIndex = arr.findIndex((obj) => obj.uid == uid);
 

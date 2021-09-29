@@ -134,16 +134,23 @@ export default function AddClass({ navigation }) {
                 );
                 setLoading(false);
               }else{
-                addToStorage(
-                  className,
-                  slot,
-                  type,
-                  day,
-                  toTime,
-                  fromTime,
-                  color,
-                  navigation,
-                );
+                (async () => {
+                  await schedulePushNotification(className,slot,type,fromTime,day)
+                  .then(res => {
+                    addToStorage(
+                      className,
+                      slot,
+                      type,
+                      day,
+                      toTime,
+                      fromTime,
+                      color,
+                      res,
+                      navigation,
+                    );
+                  }).catch(e => console.log(e));
+                })()
+                
               }
               setLoading(false);
             }}

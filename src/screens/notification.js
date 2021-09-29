@@ -7,7 +7,7 @@ Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
     shouldPlaySound: true,
-    shouldSetBadge: false,
+    shouldSetBadge: true,
   }),
 });
 
@@ -29,7 +29,7 @@ export default function Notification() {
 
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log(response);
+        // console.log(response);
       });
 
     return () => {
@@ -41,15 +41,7 @@ export default function Notification() {
   }, []);
 
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: "auto",
-      }}
-    >
-    </View>
+    null
   );
 }
 
@@ -77,7 +69,7 @@ export async function schedulePushNotification(
     content: {
       title: className + " " + type,
       body: slot,
-      sound: 'default',
+      // sound: 'default',
     },
     trigger: {
       weekday: weekday,
@@ -86,7 +78,7 @@ export async function schedulePushNotification(
       repeats: true,
     },
   });
-  console.log(id)
+  console.log("notif id on scheduling",id)
   return id;
 }
 
@@ -94,10 +86,10 @@ async function registerForPushNotificationsAsync() {
   let token;
   if (Constants.isDevice) {
     const { status: existingStatus } =
-      await Notifications.getPermissionsAsync();
+      await Notifications.getPermissionsAsync(Permissions.NOTIFICATIONS);
     let finalStatus = existingStatus;
     if (existingStatus !== "granted") {
-      const { status } = await Notifications.requestPermissionsAsync();
+      const { status } = await Notifications.requestPermissionsAsync(Permissions.NOTIFICATIONS);
       finalStatus = status;
     }
     if (finalStatus !== "granted") {
@@ -105,7 +97,7 @@ async function registerForPushNotificationsAsync() {
       return;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
+    // console.log(token);
   } else {
     alert("Must use physical device for Push Notifications");
   }
@@ -115,6 +107,7 @@ async function registerForPushNotificationsAsync() {
       name: "default",
       importance: Notifications.AndroidImportance.MAX,
       vibrationPattern: [0, 250, 250, 250],
+      sound: true,
       lightColor: "#FF231F7C",
     });
   }

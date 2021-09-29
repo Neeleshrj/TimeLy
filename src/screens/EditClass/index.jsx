@@ -12,7 +12,7 @@ import InputBox from "../../components/InputBox";
 import PickType from "../../components/PickType";
 import TimePicker from "../../components/TimePicker";
 import ColorPicker from "../../components/ColorPicker";
-import Notification from "../notification";
+import Notification,{schedulePushNotification,cancelNotification} from "../notification";
 
 import { addToStorage, removeFromStorage } from "./helper";
 
@@ -112,19 +112,25 @@ export default function EditClass({ navigation, route }) {
             loading={loading}
             onPress={() => {
               setLoading(true);
-              addToStorage(
-                Uid,
-                className,
-                slot,
-                type,
-                day,
-                toTime,
-                fromTime,
-                Day,
-                color,
-                NotifId,
-                navigation
-              );
+              cancelNotification(NotifId);
+              (async () => {
+                await schedulePushNotification(className,slot,type,fromTime,day)
+                .then(res => {
+                  addToStorage(
+                    Uid,
+                    className,
+                    slot,
+                    type,
+                    day,
+                    toTime,
+                    fromTime,
+                    Day,
+                    color,
+                    res,
+                    navigation
+                  );
+                }).catch(e => console.log(e));
+              })() 
               setLoading(false);
             }}
           />
@@ -155,7 +161,10 @@ export default function EditClass({ navigation, route }) {
                       },
                       {
                           text: 'Yes',
-                          onPress: ()=> removeFromStorage(Uid, navigation, Day, 1)
+                          onPress: ()=> {
+                            cancelNotification(NotifId);
+                            removeFromStorage(Uid, navigation, Day, 1);
+                          }
                       },
                   ]
               )

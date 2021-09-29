@@ -28,6 +28,7 @@ export default function ClassList({ name }) {
     await AsyncStorage.getItem(name)
       .then((res) => {
         setClassList(JSON.parse(res));
+        console.log(res)
         // setLoading(false);
       })
       .catch((e) => console.log(e));
@@ -53,7 +54,7 @@ export default function ClassList({ name }) {
             Slot: l.item.slot,
             Color: l.item.color,
             Day: name,
-            notifId: l.item.notifId,
+            NotifId: l.item.notifId,
           })
         }
       >

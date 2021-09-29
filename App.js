@@ -2,15 +2,17 @@ import React, { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Notifications from "expo-notifications";
 
 import RootNav from "./src/routes/rootNav";
+import Notification from "./src/screens/notification";
 
 import Loading from "./src/components/Loader";
 
 export default function App() {
 
   const [loading, setLoading] = React.useState(false);
-
+  
   async function createEmptyStorage(){
     const monday = ["Monday", JSON.stringify([])]
     const tuesday = ["Tuesday", JSON.stringify([])]
@@ -24,6 +26,14 @@ export default function App() {
     .catch(e => console.log(e));
     console.log('default values set')  
   }
+
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: true,
+    }),
+  });
 
   useEffect(() => {
     async function checkEmpty() {
@@ -52,6 +62,7 @@ export default function App() {
       <NavigationContainer>
         <SafeAreaProvider>
           <RootNav />
+          {/* <Notification /> */}
         </SafeAreaProvider>
       </NavigationContainer>
     );

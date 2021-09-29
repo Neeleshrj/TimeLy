@@ -1,7 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
 import uuid from "react-native-uuid";
-import {schedulePushNotification} from "../notification";
 
 export async function addToStorage(
   className,
@@ -11,14 +10,9 @@ export async function addToStorage(
   toTime,
   fromTime,
   color,
+  notifId,
   navigation
 ) {
-  var notifId = "";
-  (async () => {
-    notifId = await schedulePushNotification(className,slot,type,fromTime,day);
-    console.log('inside helper func')
-    console.log(notifId)
-  })()
   
   let arr = await AsyncStorage.getItem(day);
   const data = [
@@ -51,7 +45,7 @@ export async function addToStorage(
 
   await AsyncStorage.setItem(day, JSON.stringify(arr))
     .then(() => {
-      console.log("added to async storage");
+      console.log(arr);
       Alert.alert("Success!", "Class Added Successfully!", [
         {
           text: "Ok",
