@@ -1,7 +1,7 @@
 import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
 import React, { useState, useEffect, useRef } from "react";
-import { View, Platform } from "react-native";
+import {  Platform } from "react-native";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -29,7 +29,7 @@ export default function Notification() {
 
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener((response) => {
-        // console.log(response);
+        console.log(response);
       });
 
     return () => {
@@ -86,10 +86,10 @@ async function registerForPushNotificationsAsync() {
   let token;
   if (Constants.isDevice) {
     const { status: existingStatus } =
-      await Notifications.getPermissionsAsync(Permissions.NOTIFICATIONS);
+      await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
     if (existingStatus !== "granted") {
-      const { status } = await Notifications.requestPermissionsAsync(Permissions.NOTIFICATIONS);
+      const { status } = await Notifications.requestPermissionsAsync();
       finalStatus = status;
     }
     if (finalStatus !== "granted") {
@@ -97,7 +97,7 @@ async function registerForPushNotificationsAsync() {
       return;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
-    // console.log(token);
+    console.log(token);
   } else {
     alert("Must use physical device for Push Notifications");
   }
@@ -109,6 +109,8 @@ async function registerForPushNotificationsAsync() {
       vibrationPattern: [0, 250, 250, 250],
       sound: true,
       lightColor: "#FF231F7C",
+      lockscreenVisibility: Notifications.AndroidNotificationVisibility.PUBLIC,
+      bypassDnd: true,
     });
   }
 

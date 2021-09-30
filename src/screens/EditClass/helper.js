@@ -1,6 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
-import {schedulePushNotification, cancelNotification} from "../notification";
 
 export async function addToStorage(
   uid,
@@ -62,14 +61,16 @@ export async function addToStorage(
   await AsyncStorage.setItem(day, JSON.stringify(arr))
     .then(() => {
       console.log("edited and added to async storage");
-      Alert.alert("Success!", "Class Added Successfully!", [
-        {
-          text: "Ok",
-          onPress: () => {
-            navigation.navigate("timetable");
+      if(navigation){
+        Alert.alert("Success!", "Class Added Successfully!", [
+          {
+            text: "Ok",
+            onPress: () => {
+              navigation.navigate("timetable");
+            },
           },
-        },
-      ]);
+        ]);
+      } 
     })
     .catch((e) => {
       console.log("failed to store..");

@@ -6,7 +6,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 function msToHuman(ms) {
   let hours = ms.getHours();
   let min = ms.getMinutes();
-  min = Math.ceil(min / 5) * 5;
+  min = Math.floor(min / 5) * 5;
   if(hours < 10)
     hours = "0" + hours;
   if(min < 10)

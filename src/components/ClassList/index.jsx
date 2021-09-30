@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet,
   FlatList,
-  TouchableOpacity,
 } from "react-native";
 import { ListItem } from "react-native-elements";
 import {
@@ -18,13 +17,11 @@ import { msToHuman } from "./helper";
 
 export default function ClassList({ name }) {
   const isFocused = useIsFocused();
-  const [modalVisible, setVisible] = useState(false);
   const [classList, setClassList] = React.useState([]);
 
   const navigation = useNavigation();
 
   async function getClassList(name) {
-    // console.log(classList)
     await AsyncStorage.getItem(name)
       .then((res) => {
         setClassList(JSON.parse(res));
@@ -81,11 +78,14 @@ export default function ClassList({ name }) {
     if (classList.length != 0) {
       // console.log("not empty list");
       return (
+        <>
+          {/* <NotificationModal visible={visible} /> */}
           <FlatList
             data={classList}
             renderItem={renderList}
             keyExtractor={(sub) => sub.uid}
           ></FlatList>
+        </>
       );
     } else {
       // console.log(" empty list");

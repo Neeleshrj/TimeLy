@@ -5,14 +5,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Notifications from "expo-notifications";
 
 import RootNav from "./src/routes/rootNav";
-import Notification from "./src/screens/notification";
+import NotificationModal from "./src/components/EnableNotificationModal";
 
 import Loading from "./src/components/Loader";
 
 export default function App() {
 
   const [loading, setLoading] = React.useState(false);
-  
+  const [visible, setVisible] = React.useState(true);
+  const [dontShowAgain, setShowAgain] = React.useState("");
+
   async function createEmptyStorage(){
     const monday = ["Monday", JSON.stringify([])]
     const tuesday = ["Tuesday", JSON.stringify([])]
@@ -46,6 +48,13 @@ export default function App() {
             createEmptyStorage();
           }
           else{
+            await AsyncStorage.getItem('dontshowagain')
+            .then(res => {
+              console.log('dont show key exists')
+              if(res === "true"){
+                setVisible(false);
+              }
+            }).catch(e => console.log(e));
             setLoading(false);
           }     
         })
@@ -62,7 +71,12 @@ export default function App() {
       <NavigationContainer>
         <SafeAreaProvider>
           <RootNav />
-          {/* <Notification /> */}
+          <NotificationModal
+           visible={visible} 
+           setVisible={() => {setVisible(!visible);}} 
+           dontShowAgain={dontShowAgain} 
+           setDontShowAgain={() => setShowAgain(!dontShowAgain)} 
+          />
         </SafeAreaProvider>
       </NavigationContainer>
     );
